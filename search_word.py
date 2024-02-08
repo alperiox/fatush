@@ -1,53 +1,77 @@
 import typer
 from rich import print
+from rich.prompt import Prompt
 
 import os
 import typing as t
 
-from _utility_functions import get_markdown_paths, process_source_files, load_embedding_model, construct_vector_store, load_vector_store, initialize_search_engine
+from utils.config import load_config, add_config
+from utils.script import load_embedding_model
+from utils.engine import (fetch_documents_from_repo, get_markdown_paths, process_source_files,
+                        construct_vector_store, load_vector_store)
 from search_engine import Engine
 
-# define the function that'll fetch the documents from git repo of fastapi
+app = typer.Typer()
 
-def fetch_documents_from_repo(path: t.Optional[str] = ".") -> None:
-    # clone the repo to the cwd or the given path
-    # also construct the config.yaml file in cwd to save the path of the repo
-    pass
+@app.command("init")
+def initialize(source_lang: t.Optional[str] = "", translation_lang: t.Optional[str] = "", vectorstore_path: t.Optional[str] = os.getcwd()) -> None:
+    # if the source and translation languages are not given, push user to pick one
+    try:
+        config = load_config()
+    except FileNotFoundError:
+        print("[bold red]Couldn't find the config.yaml file...[/bold red]")
+        print("[cyan]Fetching the documents from the FastAPI repo...[/cyan]")
+        fetch_documents_from_repo(source_lang, translation_lang)
+        print("[bold green]Documents fetched![/bold green]")
 
+        if len(source_lang) == 0:
+            source_lang = Prompt.ask("[bold cyan]Enter the source language code (ex. 'en')[/bold cyan]")
+        if len(translation_lang) == 0:
+            translation_lang = Prompt.ask("[bold cyan]Enter the translation language code (ex. 'tr')[/bold cyan]")
 
-def initialize(source_lang: t.Optional[str], translation_lang: t.Optional[str], vectorstore_path: t.Optional[str] = ".") -> None:
-    # remove other languages and keep the source and translation languages if they're given
-    # if not, keep all of them
+        add_config("source_language", source_lang)
+        add_config("translation_language", translation_lang)
 
+        config = load_config()
+
+    print("[bold cyan] Current configuration: [/bold cyan]")
+    print(config)
+
+    print("Starting to process the documents...")
     # crawl through the path and find the markdown files, fetch the path from the config file
     paths = get_markdown_paths()
-
+    print("[bold green]Paths fetched![/bold green]")
     # build the source documents and translation documents
     source_documents, source_chunks = process_source_files(paths)
+    print("[bold green]Documents processed![/bold green]")
 
+    print("Loading the embedding model...")
     # load the embedding model
     embedding = load_embedding_model()
+    print("[green]Embedding model loaded![/green]")
 
     # now we can construct the vector store if it's not there
-    if not os.path.exists((os.path.join(vectorstore_path, "faiss_db"))):
-        print("[bold red] Couldn't find the vectorstore! [/bold red]")
+    if not config.get("vectorstore_path"):
+        print("[bold red] Couldn't find the vectorstore_path! [/bold red]")
         print("[green]Constructing...[/green]")
         # construct the vector store
         construct_vector_store(source_documents, embedding, vectorstore_path)
         print("[green]Loading...[/green]")
-        vector_store = load_vector_store(vectorstore_path)
+        vector_store = load_vector_store(embedding, os.path.join(vectorstore_path, "faiss_db"))
     
     else: # if the vector store is there, load it
         # load the vector store
-        print("[bold green] Found the vectorstore! [/bold green]")
+        print("[bold green]Found the vectorstore! [/bold green]")
         print("[green]Loading...[/green]")
-        vector_store = load_vector_store(vectorstore_path)
+        vector_store = load_vector_store(embedding, config.get("vectorstore_path"))
+
+    print("[bold green]Vector store loaded! [/bold green]")
 
     # now we can set up the search engine
     engine = Engine(embedding, vector_store, source_chunks, source_lang, translation_lang)
-    print("[bold green] Search engine initialized! [/bold green]")
+    print("[bold green]Search engine initialized! [/bold green]")
     print("[green]Starting the inference server...[/green]")
     engine.run() # starts the FastAPI inference server
 
 if __name__ == "__main__":
-    typer.run(initialize)
+    app()
