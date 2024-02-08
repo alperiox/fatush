@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "utils"
+version = "0.1.0"
+description = "Simple utility tools for translating fastapi documentation"
+authors = ["Alper Balbay <itsc0508@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+langchain = "^0.1.5"
+sentence-transformers = "^2.3.1"
+huggingface = "^0.0.1"
+fastapi = {extras = ["all"], version = "^0.109.1"}
+markdown = "^3.5.2"
+beautifulsoup4 = "^4.12.3"
+chromadb = "^0.4.22"
+faiss-cpu = "^1.7.4"
+typer = "^0.9.0"
+rich = "^13.7.0"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.2.0"
+ipython = "^8.21.0"
+jupyter = "^1.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
