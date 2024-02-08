@@ -17,8 +17,7 @@ from tqdm.auto import tqdm
 from rich.progress import track
 
 # define the function that'll fetch the documents from git repo of fastapi
-def fetch_documents_from_repo(source_lang: t.Optional[str], target_lang: t.Optional[str],
-                              path: t.Optional[str] = os.getcwd()) -> None:
+def fetch_documents_from_repo(path: t.Optional[str] = os.getcwd()) -> None:
 
     # clone the repo to the cwd or the given path
     subprocess.run(["git", "clone", "https://github.com/tiangolo/fastapi", os.path.join(path, "fastapi")])

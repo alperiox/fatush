@@ -7,14 +7,24 @@ import typing as t
 
 from utils.config import load_config, add_config
 from utils.script import load_embedding_model
-from utils.engine import (fetch_documents_from_repo, get_markdown_paths, process_source_files,
-                        construct_vector_store, load_vector_store)
+from utils.engine import (
+    fetch_documents_from_repo,
+    get_markdown_paths,
+    process_source_files,
+    construct_vector_store,
+    load_vector_store,
+)
 from search_engine import Engine
 
 app = typer.Typer()
 
+
 @app.command("init")
-def initialize(source_lang: t.Optional[str] = "", translation_lang: t.Optional[str] = "", vectorstore_path: t.Optional[str] = os.getcwd()) -> None:
+def initialize(
+    source_lang: t.Optional[str] = "",
+    translation_lang: t.Optional[str] = "",
+    vectorstore_path: t.Optional[str] = os.getcwd(),
+) -> None:
     # if the source and translation languages are not given, push user to pick one
     try:
         config = load_config()
@@ -25,9 +35,13 @@ def initialize(source_lang: t.Optional[str] = "", translation_lang: t.Optional[s
         print("[bold green]Documents fetched![/bold green]")
 
         if len(source_lang) == 0:
-            source_lang = Prompt.ask("[bold cyan]Enter the source language code (ex. 'en')[/bold cyan]")
+            source_lang = Prompt.ask(
+                "[bold cyan]Enter the source language code (ex. 'en')[/bold cyan]"
+            )
         if len(translation_lang) == 0:
-            translation_lang = Prompt.ask("[bold cyan]Enter the translation language code (ex. 'tr')[/bold cyan]")
+            translation_lang = Prompt.ask(
+                "[bold cyan]Enter the translation language code (ex. 'tr')[/bold cyan]"
+            )
 
         add_config("source_language", source_lang)
         add_config("translation_language", translation_lang)
@@ -57,9 +71,11 @@ def initialize(source_lang: t.Optional[str] = "", translation_lang: t.Optional[s
         # construct the vector store
         construct_vector_store(source_documents, embedding, vectorstore_path)
         print("[green]Loading...[/green]")
-        vector_store = load_vector_store(embedding, os.path.join(vectorstore_path, "faiss_db"))
-    
-    else: # if the vector store is there, load it
+        vector_store = load_vector_store(
+            embedding, os.path.join(vectorstore_path, "faiss_db")
+        )
+
+    else:  # if the vector store is there, load it
         # load the vector store
         print("[bold green]Found the vectorstore! [/bold green]")
         print("[green]Loading...[/green]")
@@ -68,10 +84,13 @@ def initialize(source_lang: t.Optional[str] = "", translation_lang: t.Optional[s
     print("[bold green]Vector store loaded! [/bold green]")
 
     # now we can set up the search engine
-    engine = Engine(embedding, vector_store, source_chunks, source_lang, translation_lang)
+    engine = Engine(
+        embedding, vector_store, source_chunks, source_lang, translation_lang
+    )
     print("[bold green]Search engine initialized! [/bold green]")
     print("[green]Starting the inference server...[/green]")
-    engine.run() # starts the FastAPI inference server
+    engine.run()  # starts the FastAPI inference server
+
 
 if __name__ == "__main__":
     app()
