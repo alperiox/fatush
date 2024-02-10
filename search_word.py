@@ -23,6 +23,7 @@ app = typer.Typer()
 def initialize(
     source_lang: t.Optional[str] = "",
     translation_lang: t.Optional[str] = "",
+    docs_path: t.Optional[str] = os.getcwd(),
     vectorstore_path: t.Optional[str] = os.getcwd(),
 ) -> None:
     # if the source and translation languages are not given, push user to pick one
@@ -31,7 +32,7 @@ def initialize(
     except FileNotFoundError:
         print("[bold red]Couldn't find the config.yaml file...[/bold red]")
         print("[cyan]Fetching the documents from the FastAPI repo...[/cyan]")
-        fetch_documents_from_repo(source_lang, translation_lang)
+        fetch_documents_from_repo(docs_path)
         print("[bold green]Documents fetched![/bold green]")
 
         if len(source_lang) == 0:
@@ -84,12 +85,10 @@ def initialize(
     print("[bold green]Vector store loaded! [/bold green]")
 
     # now we can set up the search engine
-    engine = Engine(
-        embedding, vector_store, source_chunks, source_lang, translation_lang
-    )
+    engine = Engine(embedding, vector_store, source_lang, translation_lang)
     print("[bold green]Search engine initialized! [/bold green]")
-    print("[green]Starting the inference server...[/green]")
-    engine.run()  # starts the FastAPI inference server
+    print("[green]Starting the inference[/green]")
+    engine.run()
 
 
 if __name__ == "__main__":
