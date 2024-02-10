@@ -14,7 +14,6 @@ huggingface = "^0.0.1"
 fastapi = {extras = ["all"], version = "^0.109.1"}
 markdown = "^3.5.2"
 beautifulsoup4 = "^4.12.3"
-chromadb = "^0.4.22"
 faiss-cpu = "^1.7.4"
 typer = "^0.9.0"
 rich = "^13.7.0"
