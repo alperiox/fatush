@@ -9,6 +9,7 @@ def load_embedding_model() -> HuggingFaceEmbeddings:
     emb_model = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
     return emb_model
 
+
 def fetch_matched_source_text(match: Document):
     line = match.metadata["new_index"]
     margin = match.metadata["margin"]
@@ -49,6 +50,7 @@ def line_chunks_to_documents(
 
     return documents
 
+
 def split_to_line_chunks(text_) -> list[str]:
     text = md_to_text(text_)
     splitted_text = text.split("\n")
@@ -63,6 +65,7 @@ def split_to_line_chunks(text_) -> list[str]:
     ]
 
     return chunks
+
 
 def clean_chunks(raw_chunks):
     chunks = []
@@ -80,6 +83,7 @@ def clean_chunks(raw_chunks):
 
     return chunks
 
+
 def md_to_text(md):
     md = process_raw_text(md)
 
@@ -89,7 +93,7 @@ def md_to_text(md):
 
 
 def process_raw_text(text):
-    lines = text.split("\n")
+    lines = list(map(lambda x: x.strip(), text.split("\n")))
     code_block_flag = False
     cleaned_lines = []
     for line in lines:
