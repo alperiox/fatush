@@ -25,6 +25,10 @@ ipython = "^8.21.0"
 jupyter = "^1.0.0"
 pre-commit = "^3.6.0"
 
+
+[tool.poetry.group.testing.dependencies]
+pytest = "^8.0.0"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
