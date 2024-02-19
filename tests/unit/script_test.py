@@ -235,7 +235,7 @@ def test_line_chunks_to_documents(example_chunks):
         assert doc.page_content in [c["text"] for c in example_chunks]
 
 
-def test_fetch_matched_source_text():
+def test_fetch_matched_text():
     """
     I'm not sure how to test this one, because it needs to read a file
     and then collect the relevant chunks
@@ -243,7 +243,7 @@ def test_fetch_matched_source_text():
     one strategy might be implementing a test file as a fixture:
     - split that file to chunks
     - fetch a random chunk
-    - use the `fetch_matched_source_text` function with predefined margin
+    - use the `fetch_matched_text` function with predefined margin
     - compare the output with the expected output
     """
     pass
