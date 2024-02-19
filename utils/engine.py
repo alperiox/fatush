@@ -15,7 +15,7 @@ from utils.script import (
     clean_chunks,
     line_chunks_to_documents,
 )
-from utils.config import add_config, load_config, create_config, CONFIG_PATH
+from utils.config import add_config, load_config, CONFIG_PATH
 
 
 from rich.progress import track
@@ -36,10 +36,6 @@ def fetch_documents_from_repo(path: t.Optional[str] = os.getcwd()) -> None:
         ["mv", os.path.join(path, "fastapi", "docs"), os.path.join(path, "docs")]
     )
     subprocess.run(["rm", "-rf", os.path.join(path, "fastapi")])
-
-    # construct the config.yaml file
-    create_config()
-    add_config("path", os.path.join(path, "docs"))
 
 
 def get_markdown_paths() -> t.List[t.Tuple[Path, Path]]:
