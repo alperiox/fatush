@@ -9,6 +9,8 @@ from langchain_core.documents import Document
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 
+import shutil
+
 from utils.script import (
     read_file,
     split_to_line_chunks,
@@ -32,10 +34,8 @@ def fetch_documents_from_repo(path: t.Optional[str] = os.getcwd()) -> None:
             os.path.join(path, "fastapi"),
         ]
     )
-    subprocess.run(
-        ["mv", os.path.join(path, "fastapi", "docs"), os.path.join(path, "docs")]
-    )
-    subprocess.run(["rm", "-rf", os.path.join(path, "fastapi")])
+    shutil.move(os.path.join(path, "fastapi", "docs"), os.path.join(path, "docs"))
+    shutil.rmtree(os.path.join(path, "fastapi"))
 
 
 def get_markdown_paths() -> t.List[t.Tuple[Path, Path]]:
