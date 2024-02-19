@@ -5,7 +5,7 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 from rich.prompt import Prompt
 from rich import print
 from datetime import datetime
-from utils.script import fetch_matched_source_text, fetch_matched_translated_text
+from utils.script import fetch_matched_text
 
 
 class Engine:
@@ -61,8 +61,8 @@ class Engine:
         for result in results:
             doc = result[0]
             score = result[1]
-            source_match = fetch_matched_source_text(doc)
-            translation_match = fetch_matched_translated_text(doc)
+            source_match = fetch_matched_text(doc, fetch_from="source")
+            translation_match = fetch_matched_text(doc, fetch_from="translation")
 
             parsed_result = {
                 "doc": doc,

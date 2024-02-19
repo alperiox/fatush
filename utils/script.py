@@ -10,22 +10,17 @@ def load_embedding_model() -> HuggingFaceEmbeddings:
     return emb_model
 
 
-def fetch_matched_source_text(match: Document):
+def fetch_matched_text(match: Document, fetch_from: str):
     line = match.metadata["new_index"]
     margin = match.metadata["margin"]
 
-    content = read_file(match.metadata["source_filepath"])
-    chunks = split_to_line_chunks(content)
-    chunks = chunks[line - margin : line + margin]
+    if fetch_from == "source":
+        content = read_file(match.metadata["source_filepath"])
+    elif fetch_from == "translation":
+        content = read_file(match.metadata["translation_filepath"])
+    else:
+        raise ValueError("fetch_from should be either 'source' or 'translation'")
 
-    return "\n".join([chunk["text"] for chunk in chunks])
-
-
-def fetch_matched_translated_text(match):
-    line = match.metadata["new_index"]
-    margin = match.metadata["margin"]
-
-    content = read_file(match.metadata["translation_filepath"])
     chunks = split_to_line_chunks(content)
     chunks = chunks[line - margin : line + margin]
 
