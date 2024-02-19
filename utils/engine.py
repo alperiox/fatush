@@ -38,10 +38,10 @@ def fetch_documents_from_repo(path: t.Optional[str] = os.getcwd()) -> None:
     shutil.rmtree(os.path.join(path, "fastapi"))
 
 
-def get_markdown_paths() -> t.List[t.Tuple[Path, Path]]:
+def get_markdown_paths(config_path: str = CONFIG_PATH) -> t.List[t.Tuple[Path, Path]]:
     # read the config.yaml file and fetch the paths
-    assert os.path.exists(CONFIG_PATH), "Couldn't find the config.yaml file!"
-    config = load_config()
+    assert os.path.exists(config_path), "Couldn't find the config.yaml file!"
+    config = load_config(path=config_path)
     path = Path(config["path"])
     source_lang = config["source_language"]
     translation_lang = config["translation_language"]
@@ -109,6 +109,7 @@ def construct_vector_store(
     documents: t.List[Document],
     embedding_model: HuggingFaceEmbeddings,
     vectorstore_path: t.Optional[str] = ".",
+    config_path: str = CONFIG_PATH,
 ) -> None:
     # construct the vector store
 
@@ -119,9 +120,11 @@ def construct_vector_store(
     vector_store.save_local(os.path.join(vectorstore_path, "faiss_db"))
 
     # modify the configuration file
-    config = load_config()
+    config = load_config(path=config_path)
     config["vectorstore_path"] = os.path.join(vectorstore_path, "faiss_db")
-    add_config("vectorstore_path", os.path.join(vectorstore_path, "faiss_db"))
+    add_config(
+        "vectorstore_path", os.path.join(vectorstore_path, "faiss_db"), path=config_path
+    )
 
 
 def load_vector_store(
