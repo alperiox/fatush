@@ -5,7 +5,7 @@ from rich.prompt import Prompt
 import os
 import typing as t
 
-from utils.config import load_config, add_config
+from utils.config import load_config, add_config, create_config
 from utils.script import load_embedding_model
 from utils.engine import (
     fetch_documents_from_repo,
@@ -33,6 +33,9 @@ def initialize(
         print("[bold red]Couldn't find the config.yaml file...[/bold red]")
         print("[cyan]Fetching the documents from the FastAPI repo...[/cyan]")
         fetch_documents_from_repo(docs_path)
+        # construct the config.yaml file
+        create_config()
+        add_config("path", os.path.join(docs_path, "docs"))
         print("[bold green]Documents fetched![/bold green]")
 
         if len(source_lang) == 0:
