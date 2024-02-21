@@ -1,6 +1,6 @@
 import pytest
 
-from utils.engine import (
+from fatush.utils.engine import (
     fetch_documents_from_repo,
     get_markdown_paths,
     process_source_files,
@@ -8,11 +8,11 @@ from utils.engine import (
     load_vector_store,
 )
 
-from utils.script import load_embedding_model
+from fatush.utils.script import load_embedding_model
 
 from langchain_core.documents import Document
 
-from utils.config import add_config, create_config
+from fatush.utils.config import add_config, create_config
 
 
 # test if we can fetch the documents

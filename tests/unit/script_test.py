@@ -126,7 +126,7 @@ def example_chunks():
 
 
 def test_process_raw_text(example_raw):
-    from utils.script import process_raw_text
+    from fatush.utils.script import process_raw_text
 
     # the output text shouldn't have any leading/trailing spaces
     # or any ``` code blocks
@@ -153,7 +153,7 @@ def test_md_to_text(example_markdown):
 
 
 def test_split_to_line_chunks(example_markdown):
-    from utils.script import split_to_line_chunks
+    from fatush.utils.script import split_to_line_chunks
 
     # the output of the `split_to_line_chunks` function should be a list of dictionaries
     # each dictionary should have the following keys:
@@ -190,7 +190,7 @@ def test_split_to_line_chunks(example_markdown):
 
 
 def test_clean_chunks(example_chunks):
-    from utils.script import clean_chunks
+    from fatush.utils.script import clean_chunks
 
     # this function removes "!!!" and leading/trailing spaces from the text of each chunk
     # and returns the cleaned chunks
@@ -210,7 +210,7 @@ def test_line_chunks_to_documents(example_chunks):
     # original_index, new_index, margin
     # and the page_content should be the text of the chunk
 
-    from utils.script import line_chunks_to_documents
+    from fatush.utils.script import line_chunks_to_documents
 
     # we should set up filepathes
     import os
@@ -241,7 +241,7 @@ def test_load_embedding_model():
     # so I can just check if the loaded object is an instance of HuggingFaceEmbeddings
     # and if the model_name is correct
 
-    from utils.script import load_embedding_model
+    from fatush.utils.script import load_embedding_model
     from langchain_community.embeddings import HuggingFaceEmbeddings
 
     emb_model = load_embedding_model()
