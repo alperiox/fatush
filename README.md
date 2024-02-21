@@ -19,14 +19,14 @@ The `search_word.py` script initializes a search engine for retrieving relevant 
 1. **Installation:**
    - Install the module itself:
       - install the toolset: `pip install fatush`
-      - then run the script: `search_word`
+      - then run the script: `fatush run`
    - Install the whole project:
       - Clone this repository: `git clone https://github.com/alperiox/fatush.git`
       - Change the directory to the project folder: `cd fatush`
       - Install the required dependencies using pip or poetry: `pip install -r requirements.txt` or `poetry install`
 
 2. **Configuration:**
-    - Run the initialization script: `python search_word.py init`
+    - Run the initialization script: `python fatush/search_word.py run`
     - Follow the prompts to set up the initial configuration.
     - If the `config.yaml` file is not found, the script will fetch documents from the FastAPI repo and create the necessary configuration file.
 
