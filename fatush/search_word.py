@@ -19,7 +19,34 @@ from fatush.search_engine import Engine
 app = typer.Typer()
 
 
-@app.command("init")
+@app.command("clean")
+def clean() -> None:
+    try:
+        config = load_config()
+    except FileNotFoundError:
+        print(
+            "[bold red]Couldn't find the config.yaml file... please run the project[/bold red]"
+        )
+        return
+    print("[bold red]Cleaning the environment...[/bold red]")
+    print("[cyan]Removing the vectorstore...[/cyan]")
+    try:
+        os.remove(config["vectorstore_path"])
+    except FileNotFoundError:
+        print("[bold red]Couldn't find the vectorstore![/bold red]")
+    print("[bold green]Vectorstore removed![/bold green]")
+    print("[cyan]Removing the documents...[/cyan]")
+    try:
+        os.remove(config["path"])
+    except FileNotFoundError:
+        print("[bold red]Couldn't find the documents![/bold red]")
+
+    print("[bold green]Documents removed![/bold green]")
+    print("[cyan]Removing the config file...[/cyan]")
+    print("[bold green]Environment cleaned![/bold green]")
+
+
+@app.command("run")
 def initialize(
     source_lang: t.Optional[str] = "",
     translation_lang: t.Optional[str] = "",
