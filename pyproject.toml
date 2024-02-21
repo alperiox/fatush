@@ -1,10 +1,13 @@
 [tool.poetry]
-name = "utils"
+name = "fatush"
 version = "0.1.0"
 description = "Simple utility tools for translating fastapi documentation"
 authors = ["Alper Balbay <itsc0508@gmail.com>"]
 license = "MIT"
 readme = "README.md"
+
+[tool.poetry.scripts]
+search_word = "fatush.search_word:app" 
 
 [tool.poetry.dependencies]
 python = "^3.11"
