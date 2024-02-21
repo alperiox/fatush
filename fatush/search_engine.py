@@ -5,7 +5,7 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 from rich.prompt import Prompt
 from rich import print
 from datetime import datetime
-from utils.script import fetch_matched_text
+from fatush.utils.script import fetch_matched_text
 
 
 class Engine:

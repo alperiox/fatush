@@ -11,13 +11,13 @@ from langchain_community.vectorstores import FAISS
 
 import shutil
 
-from utils.script import (
+from fatush.utils.script import (
     read_file,
     split_to_line_chunks,
     clean_chunks,
     line_chunks_to_documents,
 )
-from utils.config import add_config, load_config, CONFIG_PATH
+from fatush.utils.config import add_config, load_config, CONFIG_PATH
 
 
 from rich.progress import track

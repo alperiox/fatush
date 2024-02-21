@@ -5,16 +5,16 @@ from rich.prompt import Prompt
 import os
 import typing as t
 
-from utils.config import load_config, add_config, create_config
-from utils.script import load_embedding_model
-from utils.engine import (
+from fatush.utils.config import load_config, add_config, create_config
+from fatush.utils.script import load_embedding_model
+from fatush.utils.engine import (
     fetch_documents_from_repo,
     get_markdown_paths,
     process_source_files,
     construct_vector_store,
     load_vector_store,
 )
-from search_engine import Engine
+from fatush.search_engine import Engine
 
 app = typer.Typer()
 
