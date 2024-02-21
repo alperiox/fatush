@@ -7,7 +7,7 @@ license = "MIT"
 readme = "README.md"
 
 [tool.poetry.scripts]
-search_word = "fatush.search_word:app" 
+fatush = "fatush.search_word:app" 
 
 [tool.poetry.dependencies]
 python = "^3.11"
