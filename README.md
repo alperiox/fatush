@@ -17,11 +17,13 @@ The `search_word.py` script initializes a search engine for retrieving relevant 
 #### Usage
 
 1. **Installation:**
-    1. Install the module itself: `pip install fatush`
-    2. Install the whole project:
-    - Clone this repository: `git clone https://github.com/alperiox/fatush.git`
-    - Change the directory to the project folder: `cd fatush`
-    - Install the required dependencies using pip or poetry: `pip install -r requirements.txt` or `poetry install`
+   - Install the module itself:
+      - install the toolset: `pip install fatush`
+      - then run the script: `search_word`
+   - Install the whole project:
+      - Clone this repository: `git clone https://github.com/alperiox/fatush.git`
+      - Change the directory to the project folder: `cd fatush`
+      - Install the required dependencies using pip or poetry: `pip install -r requirements.txt` or `poetry install`
 
 2. **Configuration:**
     - Run the initialization script: `python search_word.py init`
