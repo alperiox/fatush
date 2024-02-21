@@ -3,6 +3,8 @@ from rich import print
 from rich.prompt import Prompt
 
 import os
+import shutil
+
 import typing as t
 
 from fatush.utils.config import load_config, add_config, create_config
@@ -31,13 +33,13 @@ def clean() -> None:
     print("[bold red]Cleaning the environment...[/bold red]")
     print("[cyan]Removing the vectorstore...[/cyan]")
     try:
-        os.remove(config["vectorstore_path"])
+        shutil.rmtree(config["vectorstore_path"])
     except FileNotFoundError:
         print("[bold red]Couldn't find the vectorstore![/bold red]")
     print("[bold green]Vectorstore removed![/bold green]")
     print("[cyan]Removing the documents...[/cyan]")
     try:
-        os.remove(config["path"])
+        shutil.rmtree(config["path"])
     except FileNotFoundError:
         print("[bold red]Couldn't find the documents![/bold red]")
 
